@@ -2,9 +2,9 @@
 #Creación de un recurso instancia (máquina virtual) en OpenStack. El objeto recurso creado es asignado a la variable tf_vm.
 resource "openstack_compute_instance_v2" "tf_vm" {
   name              = "tf_vm"
-  image_name        = "jammy"
+  image_name        = "ubuntu24.04"
   availability_zone = "nova"
-  flavor_name       = "medium"
+  flavor_name       = "m1.medium"
   key_pair          = var.openstack_keypair
   security_groups   = ["default"]
   network {
@@ -15,7 +15,7 @@ resource "openstack_compute_instance_v2" "tf_vm" {
 
 #Creación de un recurso dirección IP flotante. El objeto recurso creado es asignado a la variable tf_vm_ip.
 resource "openstack_networking_floatingip_v2" "tf_vm_ip" {
-  pool = "ext-net"
+  pool = "public1"
 }
 
 #Asociación de la IP flotante a la instancia
