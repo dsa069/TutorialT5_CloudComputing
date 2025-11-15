@@ -11,6 +11,7 @@ resource "openstack_compute_instance_v2" "tf_vm" {
     #Red a la que se conectará la instancia creada. Usamos una variable de entrada almacenada en variables.tf con el nombre de la red.
     name = var.openstack_network_name
   }
+  user_data = file("install_mysql.sh")
 }
 
 #Creación de un recurso dirección IP flotante. El objeto recurso creado es asignado a la variable tf_vm_ip.
