@@ -22,3 +22,9 @@ variable "openstack_network_name" {
   description = "Name of the OpenStack network to attach the instance to"
   type        = string
 }
+
+variable "openstack_security_groups" {
+  description = "List of security groups to assign to instances"
+  type        = list(string)
+  default     = ["default"]
+}
