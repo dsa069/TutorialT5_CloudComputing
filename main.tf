@@ -4,7 +4,7 @@ resource "openstack_compute_instance_v2" "tf_vm" {
   name              = "tf_vm"
   image_name        = "ubuntu24.04"
   availability_zone = "nova"
-  flavor_name       = "m1.medium"
+  flavor_name       = "m1.large"
   key_pair          = var.openstack_keypair
   security_groups   = ["default"]
   network {
@@ -32,4 +32,17 @@ resource "openstack_compute_floatingip_associate_v2" "tf_vm_ip" {
 output tf_vm_Floating_IP {
   value      = openstack_networking_floatingip_v2.tf_vm_ip.address
   depends_on = [openstack_networking_floatingip_v2.tf_vm_ip]
+}
+
+#Crear volumen 1GB
+resource "openstack_blockstorage_volume_v3" "tf_vol" {
+  name        = "tf_vol"
+  description = "first test volume"
+  size        = 1
+}
+
+#Adjuntar volumen a la instancia
+resource "openstack_compute_volume_attach_v2" "va_1" {
+  instance_id = "${openstack_compute_instance_v2.tf_vm.id}"
+  volume_id   = "${openstack_blockstorage_volume_v3.tf_vol.id}"
 }
